@@ -2,18 +2,59 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const { VueLoaderPlugin } = require('vue-loader');
+const webpack = require('webpack');
 
 module.exports = {
-  entry: './src/javascripts/main.js',
+  // モード値を production に設定すると最適化された状態で、
+  // development に設定するとソースマップ有効でJSファイルが出力される
+  mode: 'development',
+  devtool: 'source-map',
+  entry: './src/javascripts/main.ts',
   output: {
     path: path.resolve(__dirname, './dist'),
     filename: './javascripts/main.js',
   },
-  // モード値を production に設定すると最適化された状態で、
-  // development に設定するとソースマップ有効でJSファイルが出力される
-  mode: 'development',
+  devServer: {
+    watchFiles: ['src/**/*.pug'],
+  },
+
   module: {
     rules: [
+      {
+        test: /\.vue$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'vue-loader',
+          },
+        ],
+      },
+      {
+        test: /\.(ts|tsx)/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'ts-loader',
+            options: {
+              //vueをtypescriptとして監視する
+              appendTsSuffixTo: [/\.vue$/],
+            },
+          },
+        ],
+      },
+      {
+        test: /\.js/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env'],
+            },
+          },
+        ],
+      },
       {
         // 対象となるファイルの拡張子(scss)
         test: /\.scss$/,
@@ -58,19 +99,15 @@ module.exports = {
         ],
       },
       {
-        test: /\.(jpg|png)/,
+        test: /\.(jpg|png|jpeg)/,
         type: 'asset/resource',
         generator: {
           filename: 'images/[name][ext]',
         },
         use: [
-          // {
-          //   loader: 'file-loader',
-          //   options: {
-          //     esModule: false,
-          //     name: 'images/[name].[ext]',
-          //   },
-          // },
+          {
+            loader: 'image-webpack-loader',
+          },
         ],
       },
       {
@@ -90,6 +127,11 @@ module.exports = {
     ],
   },
   plugins: [
+    new VueLoaderPlugin(),
+    new webpack.DefinePlugin({
+      __VUE_OPTIONS_API__: true,
+      __VUE_PROD_DEVTOOLS__: false,
+    }),
     new MiniCssExtractPlugin({
       filename: './stylesheets/main.css',
     }),

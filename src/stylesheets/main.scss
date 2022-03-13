@@ -17,7 +17,7 @@ $jumbotron-bg: #d9f5ff;
 $font-family-base: serif;
 
 /* Bootstrap を読み込む */
-@import "~bootstrap/scss/bootstrap.scss";
+@use "~bootstrap/scss/bootstrap.scss";
 
 /* 自分のスタイルを書いていく */
 body {
