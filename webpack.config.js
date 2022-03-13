@@ -1,11 +1,13 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: './src/javascripts/main.js',
   output: {
     path: path.resolve(__dirname, './dist'),
+    filename: './javascripts/main.js',
   },
   // モード値を production に設定すると最適化された状態で、
   // development に設定するとソースマップ有効でJSファイルが出力される
@@ -55,15 +57,32 @@ module.exports = {
           },
         ],
       },
+      {
+        test: /\.(jpg|png)/,
+        type: 'asset/resource',
+        generator: {
+          filename: 'images/[name][ext]',
+        },
+        use: [
+          // {
+          //   loader: 'file-loader',
+          //   options: {
+          //     esModule: false,
+          //     name: 'images/[name].[ext]',
+          //   },
+          // },
+        ],
+      },
     ],
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: 'style.css',
+      filename: './stylesheets/main.css',
     }),
     new HtmlWebpackPlugin({
-      template: './src/index.html',
+      template: './src/templates/index.html',
     }),
+    new CleanWebpackPlugin(),
   ],
   // source-map方式でないと、CSSの元ソースが追跡できないため
   devtool: 'source-map',
