@@ -139,10 +139,6 @@ module.exports = {
       template: './src/templates/index.pug',
       filename: 'index.html',
     }),
-    new HtmlWebpackPlugin({
-      template: './src/templates/access.pug',
-      filename: 'access.html',
-    }),
     new CleanWebpackPlugin(),
   ],
   // source-map方式でないと、CSSの元ソースが追跡できないため

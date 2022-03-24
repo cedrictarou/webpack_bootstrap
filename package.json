@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack serve",
     "build": "webpack --mode production",
-    "build:dev": "webpack"
+    "build:dev": "webpack",
+    "prettier":"prettier --write '**/*.pug'"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +16,7 @@
   "devDependencies": {
     "@babel/core": "^7.9.6",
     "@babel/preset-env": "^7.9.6",
+    "@prettier/plugin-pug": "^1.19.3",
     "autoprefixer": "^10.4.2",
     "babel-loader": "^8.2.3",
     "clean-webpack-plugin": "^4.0.0",
@@ -25,6 +27,7 @@
     "mini-css-extract-plugin": "^2.6.0",
     "postcss": "^8.4.8",
     "postcss-loader": "^6.2.1",
+    "prettier": "^2.6.0",
     "pug-html-loader": "^1.1.5",
     "sass": "^1.49.9",
     "sass-loader": "^12.6.0",
